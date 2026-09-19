@@ -1,0 +1,55 @@
+
+  <style>
+    :root { --navy:#064b90; --blue:#5276ff; --sky:#4fa1ff; --pale:#f7f9ff; --ink:#24262c; --line:#d9dee9; --muted:#69717e; }
+    :root { --navy:#092a4a; --blue:#1769aa; --sky:#2f8edb; --pale:#f4f7fa; --ink:#172b3a; --line:#dbe3ea; --muted:#69717e; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background:#f5f7fb; }
+    .page { min-height:100vh; padding:28px 28px 18px; position:relative; overflow:hidden; background:#fff; }
+    .shape { position:absolute; right:-26px; top:-18px; width:160px; height:98px; background:#a4b1ff; border-radius:59% 18% 38% 62%; transform:rotate(22deg); opacity:.9; }
+    body { margin:0; color:var(--ink); font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background:#eaf0f5; }
+    .page { max-width:1480px; min-height:100vh; margin:auto; padding:30px; position:relative; overflow:hidden; background:#f5f7fa; }
+    .shape { display:none; }
+    .shape:after { content:""; position:absolute; left:36px; top:32px; width:74px; height:42px; border:1px solid rgba(255,255,255,.56); border-color:transparent transparent rgba(255,255,255,.7) transparent; border-radius:50%; transform:rotate(-25deg); }
+    .headline { display:flex; align-items:center; justify-content:space-between; gap:18px; padding-right:145px; }
+    h1 { margin:0; font-size:31px; letter-spacing:-1.15px; line-height:1.15; font-weight:800; }
+    .create-btn { border:0; border-radius:5px; background:var(--navy); color:#fff; font-size:14px; font-weight:720; padding:12px 17px; cursor:pointer; white-space:nowrap; box-shadow:0 2px 6px rgba(6,75,144,.2); }
+    .create-btn:hover { background:#063d76; }
+    .lead { margin:9px 0 35px; color:#8a8f99; font-size:11px; }
+    .headline { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:25px 28px; border-radius:9px 9px 0 0; background:var(--navy); color:#fff; }
+    .headline > div { display:grid; gap:5px; }
+    .eyebrow { color:#a9cce9; font-size:10px; letter-spacing:1.5px; font-weight:800; }
+    h1 { margin:0; font-size:28px; letter-spacing:-.75px; line-height:1.15; font-weight:760; }
+    .create-btn { border:0; border-radius:5px; background:#1674bb; color:#fff; font-size:13px; font-weight:720; padding:12px 17px; cursor:pointer; white-space:nowrap; box-shadow:0 2px 6px rgba(0,0,0,.12); }
+    .create-btn:hover { background:#0e5e9d; }
+    .lead { margin:0 0 23px; padding:10px 28px 20px; background:var(--navy); border-radius:0 0 9px 9px; color:#bed2e3; font-size:12px; }
+    .metrics { display:grid; grid-template-columns:repeat(6,1fr); gap:8px; }
+    .metric { min-height:116px; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:white; box-shadow:0 1px 1px rgba(12,32,71,.02); cursor:pointer; transition:transform .15s, box-shadow .15s; }
+    .metric { min-height:116px; border:1px solid var(--line); border-radius:7px; overflow:hidden; background:white; box-shadow:0 2px 5px rgba(22,42,61,.05); cursor:pointer; transition:transform .15s, box-shadow .15s; }
+    .metric:hover, .metric:focus { transform:translateY(-2px); box-shadow:0 5px 14px rgba(12,32,71,.13); outline:none; }
+    .metric h2 { margin:9px 0 0; height:23px; line-height:23px; background:linear-gradient(90deg,#5675ff,#6c80f7); color:white; text-align:center; font-size:15px; font-weight:760; letter-spacing:-.25px; }
+    .metric .number { height:77px; display:grid; place-items:center; font-size:38px; line-height:1; font-weight:750; }
+    .metric h2 { margin:0; padding:13px 12px 5px; min-height:40px; color:#526678; background:#fff; text-align:left; font-size:12px; font-weight:750; letter-spacing:0; border-top:4px solid #1b78bd; }
+    .metric .number { height:67px; display:grid; place-items:center start; padding-left:13px; font-size:35px; line-height:1; color:var(--navy); font-weight:780; }
+    .dashboard { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:8px; }
+    .panel { min-height:317px; border:1px solid var(--line); border-radius:6px; background:#fff; overflow:hidden; }
+    .panel h2 { height:34px; line-height:34px; background:var(--navy); color:#fff; text-align:center; margin:8px 0 0; font-size:15px; letter-spacing:-.2px; font-weight:760; }
+    .panel { min-height:317px; border:1px solid var(--line); border-radius:7px; background:#fff; overflow:hidden; box-shadow:0 2px 5px rgba(22,42,61,.04); }
+    .panel h2, .ticket-register h2 { height:43px; line-height:43px; background:#fff; color:var(--navy); text-align:left; padding:0 18px; margin:0; border-bottom:1px solid var(--line); font-size:13px; letter-spacing:0; font-weight:800; }
+    .priority { position:relative; height:260px; display:grid; place-items:center; }
+    .bar.sky > i { background:#2d97f8; } .bar.light > i { background:#71b4ff; }
+    .ticket-register { margin-top:8px; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:#fff; }
+    .ticket-register h2 { margin:8px 0 0; height:34px; line-height:34px; background:var(--navy); color:#fff; text-align:center; font-size:15px; }
+    .ticket-register { margin-top:8px; border:1px solid var(--line); border-radius:7px; overflow:hidden; background:#fff; box-shadow:0 2px 5px rgba(22,42,61,.04); }
+    .table-wrap { overflow-x:auto; }
+    .analyst-chip { display:inline-block; margin:0 6px 6px 0; padding:5px 9px; border-radius:14px; color:#064b90; background:#e6efff; font-size:11px; font-weight:700; }
+    footer { color:#9298a4; text-align:center; font-size:10px; padding-top:19px; }
+    footer { color:#8492a0; text-align:center; font-size:10px; padding-top:19px; }
+    .modal { display:none; position:fixed; inset:0; z-index:5; background:rgba(9,20,39,.45); align-items:center; justify-content:center; padding:20px; }
+    .modal.show { display:flex; }
+    .modal-box { width:min(500px,100%); background:#fff; border-radius:10px; padding:25px; box-shadow:0 18px 55px rgba(0,0,0,.22); }
+    .modal-box { width:min(500px,100%); background:#fff; border-radius:8px; padding:25px; box-shadow:0 18px 55px rgba(0,0,0,.22); }
+    .modal-box h2 { margin:0 0 18px; font-size:22px; }
+    <div class="shape" aria-hidden="true"></div>
+    <div class="headline"><h1>GSOC Ticket Management System</h1><button class="create-btn" id="openForm">+ Create Ticket</button></div>
+    <div class="headline"><div><span class="eyebrow">GSOC OPERATIONS CENTER</span><h1>Ticket Management System</h1></div><button class="create-btn" id="openForm">+ Create Ticket</button></div>
+    <p class="lead">Track ticket workload, priority, and resolution progress for the GSOC support team.</p>
