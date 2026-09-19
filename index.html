@@ -1,55 +1,64 @@
-
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GSOC Ticket Management Dashboard</title>
   <style>
-    :root { --navy:#064b90; --blue:#5276ff; --sky:#4fa1ff; --pale:#f7f9ff; --ink:#24262c; --line:#d9dee9; --muted:#69717e; }
-    :root { --navy:#092a4a; --blue:#1769aa; --sky:#2f8edb; --pale:#f4f7fa; --ink:#172b3a; --line:#dbe3ea; --muted:#69717e; }
+    :root { --navy:#092a4a; --blue:#1769aa; --sky:#2f8edb; --pale:#f4f7fa; --ink:#172b3a; --line:#dbe3ea; --muted:#69717e; --green:#198754; --amber:#e59a18; --red:#d04444; }
     * { box-sizing:border-box; }
-    body { margin:0; color:var(--ink); font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background:#f5f7fb; }
-    .page { min-height:100vh; padding:28px 28px 18px; position:relative; overflow:hidden; background:#fff; }
-    .shape { position:absolute; right:-26px; top:-18px; width:160px; height:98px; background:#a4b1ff; border-radius:59% 18% 38% 62%; transform:rotate(22deg); opacity:.9; }
-    body { margin:0; color:var(--ink); font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background:#eaf0f5; }
-    .page { max-width:1480px; min-height:100vh; margin:auto; padding:30px; position:relative; overflow:hidden; background:#f5f7fa; }
-    .shape { display:none; }
-    .shape:after { content:""; position:absolute; left:36px; top:32px; width:74px; height:42px; border:1px solid rgba(255,255,255,.56); border-color:transparent transparent rgba(255,255,255,.7) transparent; border-radius:50%; transform:rotate(-25deg); }
-    .headline { display:flex; align-items:center; justify-content:space-between; gap:18px; padding-right:145px; }
-    h1 { margin:0; font-size:31px; letter-spacing:-1.15px; line-height:1.15; font-weight:800; }
-    .create-btn { border:0; border-radius:5px; background:var(--navy); color:#fff; font-size:14px; font-weight:720; padding:12px 17px; cursor:pointer; white-space:nowrap; box-shadow:0 2px 6px rgba(6,75,144,.2); }
-    .create-btn:hover { background:#063d76; }
-    .lead { margin:9px 0 35px; color:#8a8f99; font-size:11px; }
-    .headline { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:25px 28px; border-radius:9px 9px 0 0; background:var(--navy); color:#fff; }
-    .headline > div { display:grid; gap:5px; }
-    .eyebrow { color:#a9cce9; font-size:10px; letter-spacing:1.5px; font-weight:800; }
-    h1 { margin:0; font-size:28px; letter-spacing:-.75px; line-height:1.15; font-weight:760; }
-    .create-btn { border:0; border-radius:5px; background:#1674bb; color:#fff; font-size:13px; font-weight:720; padding:12px 17px; cursor:pointer; white-space:nowrap; box-shadow:0 2px 6px rgba(0,0,0,.12); }
+    body { margin:0; color:var(--ink); font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; background:#eaf0f5; }
+    .page { max-width:1480px; min-height:100vh; margin:auto; padding:30px; background:var(--pale); }
+    .headline { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:25px 28px; border-radius:10px 10px 0 0; color:#fff; background:var(--navy); }
+    .eyebrow { display:block; color:#a9cce9; font-size:10px; font-weight:800; letter-spacing:1.5px; }
+    h1 { margin:4px 0 0; font-size:28px; letter-spacing:-.75px; }
+    .lead { margin:0 0 23px; padding:10px 28px 20px; border-radius:0 0 10px 10px; color:#bed2e3; background:var(--navy); }
+    button, select, input { font:inherit; }
+    button { cursor:pointer; }
+    .create-btn { border:0; border-radius:6px; padding:12px 17px; color:#fff; background:#1674bb; font-weight:750; box-shadow:0 2px 6px #0003; }
     .create-btn:hover { background:#0e5e9d; }
-    .lead { margin:0 0 23px; padding:10px 28px 20px; background:var(--navy); border-radius:0 0 9px 9px; color:#bed2e3; font-size:12px; }
-    .metrics { display:grid; grid-template-columns:repeat(6,1fr); gap:8px; }
-    .metric { min-height:116px; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:white; box-shadow:0 1px 1px rgba(12,32,71,.02); cursor:pointer; transition:transform .15s, box-shadow .15s; }
-    .metric { min-height:116px; border:1px solid var(--line); border-radius:7px; overflow:hidden; background:white; box-shadow:0 2px 5px rgba(22,42,61,.05); cursor:pointer; transition:transform .15s, box-shadow .15s; }
-    .metric:hover, .metric:focus { transform:translateY(-2px); box-shadow:0 5px 14px rgba(12,32,71,.13); outline:none; }
-    .metric h2 { margin:9px 0 0; height:23px; line-height:23px; background:linear-gradient(90deg,#5675ff,#6c80f7); color:white; text-align:center; font-size:15px; font-weight:760; letter-spacing:-.25px; }
-    .metric .number { height:77px; display:grid; place-items:center; font-size:38px; line-height:1; font-weight:750; }
-    .metric h2 { margin:0; padding:13px 12px 5px; min-height:40px; color:#526678; background:#fff; text-align:left; font-size:12px; font-weight:750; letter-spacing:0; border-top:4px solid #1b78bd; }
-    .metric .number { height:67px; display:grid; place-items:center start; padding-left:13px; font-size:35px; line-height:1; color:var(--navy); font-weight:780; }
-    .dashboard { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:8px; }
-    .panel { min-height:317px; border:1px solid var(--line); border-radius:6px; background:#fff; overflow:hidden; }
-    .panel h2 { height:34px; line-height:34px; background:var(--navy); color:#fff; text-align:center; margin:8px 0 0; font-size:15px; letter-spacing:-.2px; font-weight:760; }
-    .panel { min-height:317px; border:1px solid var(--line); border-radius:7px; background:#fff; overflow:hidden; box-shadow:0 2px 5px rgba(22,42,61,.04); }
-    .panel h2, .ticket-register h2 { height:43px; line-height:43px; background:#fff; color:var(--navy); text-align:left; padding:0 18px; margin:0; border-bottom:1px solid var(--line); font-size:13px; letter-spacing:0; font-weight:800; }
-    .priority { position:relative; height:260px; display:grid; place-items:center; }
-    .bar.sky > i { background:#2d97f8; } .bar.light > i { background:#71b4ff; }
-    .ticket-register { margin-top:8px; border:1px solid var(--line); border-radius:6px; overflow:hidden; background:#fff; }
-    .ticket-register h2 { margin:8px 0 0; height:34px; line-height:34px; background:var(--navy); color:#fff; text-align:center; font-size:15px; }
-    .ticket-register { margin-top:8px; border:1px solid var(--line); border-radius:7px; overflow:hidden; background:#fff; box-shadow:0 2px 5px rgba(22,42,61,.04); }
-    .table-wrap { overflow-x:auto; }
-    .analyst-chip { display:inline-block; margin:0 6px 6px 0; padding:5px 9px; border-radius:14px; color:#064b90; background:#e6efff; font-size:11px; font-weight:700; }
-    footer { color:#9298a4; text-align:center; font-size:10px; padding-top:19px; }
-    footer { color:#8492a0; text-align:center; font-size:10px; padding-top:19px; }
-    .modal { display:none; position:fixed; inset:0; z-index:5; background:rgba(9,20,39,.45); align-items:center; justify-content:center; padding:20px; }
-    .modal.show { display:flex; }
-    .modal-box { width:min(500px,100%); background:#fff; border-radius:10px; padding:25px; box-shadow:0 18px 55px rgba(0,0,0,.22); }
-    .modal-box { width:min(500px,100%); background:#fff; border-radius:8px; padding:25px; box-shadow:0 18px 55px rgba(0,0,0,.22); }
-    .modal-box h2 { margin:0 0 18px; font-size:22px; }
-    <div class="shape" aria-hidden="true"></div>
-    <div class="headline"><h1>GSOC Ticket Management System</h1><button class="create-btn" id="openForm">+ Create Ticket</button></div>
-    <div class="headline"><div><span class="eyebrow">GSOC OPERATIONS CENTER</span><h1>Ticket Management System</h1></div><button class="create-btn" id="openForm">+ Create Ticket</button></div>
+    .metrics { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; }
+    .metric,.panel,.ticket-register { border:1px solid var(--line); border-radius:8px; background:#fff; box-shadow:0 2px 5px #162a3d0d; }
+    .metric { min-height:116px; overflow:hidden; }
+    .metric h2 { margin:0; padding:13px 12px 5px; min-height:40px; border-top:4px solid var(--sky); color:#526678; font-size:12px; }
+    .metric .number { padding:0 13px; height:67px; display:grid; place-items:center start; color:var(--navy); font-size:35px; font-weight:800; }
+    .dashboard { display:grid; grid-template-columns:1.15fr 1fr 1fr; gap:10px; margin-top:10px; }
+    .panel { min-height:290px; overflow:hidden; }
+    .panel h2,.ticket-register h2 { margin:0; padding:0 18px; height:45px; display:flex; align-items:center; border-bottom:1px solid var(--line); color:var(--navy); font-size:13px; }
+    .priority { display:grid; grid-template-columns:126px 1fr; align-items:center; gap:18px; padding:25px 22px; }
+    .donut { width:126px; height:126px; border-radius:50%; background:conic-gradient(var(--red) 0 35%,var(--amber) 35% 65%,var(--sky) 65% 100%); position:relative; }
+    .donut:after { content:"24 open"; position:absolute; inset:25px; display:grid; place-items:center; border-radius:50%; background:#fff; color:var(--navy); font-weight:800; font-size:12px; }
+    .legend { display:grid; gap:11px; }
+    .legend div { display:flex; justify-content:space-between; gap:12px; color:var(--muted); }
+    .dot { width:10px; height:10px; margin-right:7px; display:inline-block; border-radius:50%; }
+    .bars { display:grid; gap:18px; padding:23px 22px; }
+    .bar-row { display:grid; grid-template-columns:72px 1fr 28px; gap:9px; align-items:center; color:var(--muted); font-size:12px; }
+    .bar { height:10px; overflow:hidden; border-radius:10px; background:#e8eef3; }.bar i { display:block; height:100%; border-radius:inherit; background:var(--sky); }
+    .analysts { padding:18px; display:grid; gap:13px; }.analyst { display:flex; align-items:center; gap:10px; }.avatar { width:32px; height:32px; display:grid; place-items:center; border-radius:50%; color:#07568f; background:#dcecf8; font-size:12px; font-weight:800; }.analyst small { color:var(--muted); }.analyst b { margin-left:auto; color:var(--navy); }
+    .ticket-register { margin-top:10px; overflow:hidden; }.controls { padding:14px 18px; display:flex; gap:10px; justify-content:space-between; }.controls input,.controls select { min-width:180px; padding:9px 11px; border:1px solid var(--line); border-radius:6px; color:var(--ink); background:#fff; }
+    .table-wrap { overflow-x:auto; }table { width:100%; border-collapse:collapse; }th,td { padding:13px 18px; text-align:left; border-top:1px solid var(--line); white-space:nowrap; }th { color:var(--muted); font-size:11px; letter-spacing:.35px; text-transform:uppercase; }td { font-size:13px; }.pill { display:inline-block; padding:4px 9px; border-radius:999px; font-size:11px; font-weight:750; }.high { color:#a12b2b; background:#fee7e7; }.medium { color:#99600a; background:#fff1d8; }.low { color:#146b9c; background:#e2f2fb; }.status-open { color:#146b9c; background:#e2f2fb; }.status-progress { color:#6a4ea0; background:#eee8ff; }.status-resolved { color:#167044; background:#e1f6e9; }
+    footer { padding:18px 0 4px; color:#8492a0; text-align:center; font-size:11px; }
+    .modal { display:none; position:fixed; inset:0; z-index:5; align-items:center; justify-content:center; padding:20px; background:#09142773; }.modal.show { display:flex; }.modal-box { width:min(520px,100%); padding:25px; border-radius:10px; background:#fff; box-shadow:0 18px 55px #0005; }.modal-box h2 { margin:0 0 18px; }.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }.form-grid label { display:grid; gap:6px; color:#526678; font-size:12px; font-weight:700; }.form-grid input,.form-grid select { width:100%; padding:10px; border:1px solid var(--line); border-radius:6px; }.form-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:22px; }.cancel { border:1px solid var(--line); border-radius:6px; padding:10px 15px; background:#fff; }
+    @media (max-width:1000px) { .metrics { grid-template-columns:repeat(3,1fr); }.dashboard { grid-template-columns:1fr; }.panel { min-height:auto; } }@media (max-width:600px) { .page { padding:14px; }.headline { align-items:flex-start; padding:20px; }.headline h1 { font-size:21px; }.headline .create-btn { padding:9px; }.metrics { grid-template-columns:repeat(2,1fr); }.controls,.form-grid { grid-template-columns:1fr; display:grid; }.controls input,.controls select { min-width:0; }.priority { grid-template-columns:1fr; justify-items:center; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="headline"><div><span class="eyebrow">GSOC OPERATIONS CENTER</span><h1>Ticket Management System</h1></div><button class="create-btn" id="openForm">+ Create Ticket</button></header>
     <p class="lead">Track ticket workload, priority, and resolution progress for the GSOC support team.</p>
+    <section class="metrics"><article class="metric"><h2>Total Tickets</h2><div class="number" id="total">48</div></article><article class="metric"><h2>Open</h2><div class="number" id="open">24</div></article><article class="metric"><h2>In Progress</h2><div class="number" id="progress">15</div></article><article class="metric"><h2>Resolved</h2><div class="number" id="resolved">9</div></article><article class="metric"><h2>Critical</h2><div class="number">4</div></article><article class="metric"><h2>Avg. Resolution</h2><div class="number">6h</div></article></section>
+    <section class="dashboard"><article class="panel"><h2>Open Tickets by Priority</h2><div class="priority"><div class="donut"></div><div class="legend"><div><span><i class="dot" style="background:#d04444"></i>High</span><b>8</b></div><div><span><i class="dot" style="background:#e59a18"></i>Medium</span><b>7</b></div><div><span><i class="dot" style="background:#2f8edb"></i>Low</span><b>9</b></div></div></div></article><article class="panel"><h2>Resolution Progress</h2><div class="bars"><div class="bar-row"><span>Resolved</span><div class="bar"><i style="width:73%"></i></div><b>73%</b></div><div class="bar-row"><span>In SLA</span><div class="bar"><i style="width:89%;background:#198754"></i></div><b>89%</b></div><div class="bar-row"><span>Escalated</span><div class="bar"><i style="width:18%;background:#e59a18"></i></div><b>18%</b></div></div></article><article class="panel"><h2>Analyst Workload</h2><div class="analysts"><div class="analyst"><i class="avatar">AK</i><span>Aditi Kumar<br><small>Tier 2 analyst</small></span><b>7</b></div><div class="analyst"><i class="avatar">RS</i><span>Rohan Singh<br><small>Tier 1 analyst</small></span><b>6</b></div><div class="analyst"><i class="avatar">MP</i><span>Meera Patel<br><small>Tier 2 analyst</small></span><b>5</b></div><div class="analyst"><i class="avatar">JD</i><span>John Doe<br><small>Tier 1 analyst</small></span><b>4</b></div></div></article></section>
+    <section class="ticket-register"><h2>Ticket Register</h2><div class="controls"><input id="search" placeholder="Search tickets…"><select id="filter"><option value="">All priorities</option><option>High</option><option>Medium</option><option>Low</option></select></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>Ticket</th><th>Priority</th><th>Assignee</th><th>Status</th><th>Updated</th></tr></thead><tbody id="ticketRows"><tr data-priority="High"><td>#GS-1048</td><td>Suspicious login alert</td><td><span class="pill high">High</span></td><td>Aditi Kumar</td><td><span class="pill status-progress">In Progress</span></td><td>12 min ago</td></tr><tr data-priority="Medium"><td>#GS-1047</td><td>Endpoint agent offline</td><td><span class="pill medium">Medium</span></td><td>Rohan Singh</td><td><span class="pill status-open">Open</span></td><td>31 min ago</td></tr><tr data-priority="Low"><td>#GS-1046</td><td>Weekly access review</td><td><span class="pill low">Low</span></td><td>Meera Patel</td><td><span class="pill status-resolved">Resolved</span></td><td>1 hr ago</td></tr></tbody></table></div></section>
+    <footer>GSOC Ticket Management System · Dashboard data is illustrative</footer>
+  </main>
+  <div class="modal" id="modal" aria-hidden="true"><form class="modal-box" id="ticketForm"><h2>Create ticket</h2><div class="form-grid"><label>Ticket title<input required id="title" placeholder="Describe the issue"></label><label>Priority<select id="priority"><option>High</option><option selected>Medium</option><option>Low</option></select></label><label>Assignee<input required id="assignee" placeholder="Analyst name"></label><label>Status<select id="status"><option>Open</option><option>In Progress</option></select></label></div><div class="form-actions"><button type="button" class="cancel" id="cancel">Cancel</button><button class="create-btn">Create Ticket</button></div></form></div>
+  <script>
+    const modal=document.getElementById('modal'), rows=document.getElementById('ticketRows');
+    document.getElementById('openForm').onclick=()=>{modal.classList.add('show');document.getElementById('title').focus()};
+    document.getElementById('cancel').onclick=()=>modal.classList.remove('show');
+    modal.onclick=e=>{if(e.target===modal)modal.classList.remove('show')};
+    document.getElementById('ticketForm').onsubmit=e=>{e.preventDefault();const title=document.getElementById('title').value, priority=document.getElementById('priority').value, assignee=document.getElementById('assignee').value, status=document.getElementById('status').value;const id=1050+rows.children.length;const p=priority.toLowerCase(), s=status==='Open'?'status-open':'status-progress';rows.insertAdjacentHTML('afterbegin',`<tr data-priority="${priority}"><td>#GS-${id}</td><td>${title.replace(/[<>]/g,'')}</td><td><span class="pill ${p}">${priority}</span></td><td>${assignee.replace(/[<>]/g,'')}</td><td><span class="pill ${s}">${status}</span></td><td>Just now</td></tr>`);document.getElementById('total').textContent=+document.getElementById('total').textContent+1;document.getElementById(status==='Open'?'open':'progress').textContent=+document.getElementById(status==='Open'?'open':'progress').textContent+1;e.target.reset();modal.classList.remove('show');applyFilter();};
+    const applyFilter=()=>{const term=document.getElementById('search').value.toLowerCase(), priority=document.getElementById('filter').value;[...rows.children].forEach(row=>row.hidden=!(row.textContent.toLowerCase().includes(term)&&(!priority||row.dataset.priority===priority)));};document.getElementById('search').oninput=applyFilter;document.getElementById('filter').onchange=applyFilter;
+  </script>
+</body>
+</html>
